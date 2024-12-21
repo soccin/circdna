@@ -16,10 +16,12 @@ set -eu
 
 if [ "$#" -ne "1" ]; then
     echo
-    echo usage: $(basename $(dirname $0))/$(basename $0) ARG1
+    echo usage: $(basename $(dirname $0))/$(basename $0) INPUT_CSV
     echo
     exit
 fi
+
+INPUT_CSV=$1
 
 #
 # Check if in backgroup or forground
@@ -36,12 +38,24 @@ ODIR="out"
 mkdir -p $ODIR
 
 #:BEGIN
-echo nextflow run $SDIR/pipeline-dir/main.nf \
+
+AA_DATA_REPO=/juno/bic/work/socci/Work/Users/SingerS/AmpliconArchitect/AA_DATA_REPO
+MOSEK_LICENSE=/juno/bic/work/socci/Work/Users/SingerS/AmpliconArchitect/MOSEK_LIC
+GENOME=GRCh37
+
+nextflow run $SDIR/circdna/main.nf \
     -ansi-log $ANSI_LOG \
     -resume \
     -profile singularity \
-    -c $SDIR/lsf_juno \
-    ...
+    -c $SDIR/conf/lsf_juno.config \
+    --aa_data_repo $AA_DATA_REPO \
+    --mosek_license_dir $MOSEK_LICENSE \
+    --circle_identifier ampliconarchitect \
+    --reference_build $GENOME --genome $GENOME \
+    --input $INPUT_CSV \
+    --input_format BAM \
+    --outdir $ODIR
+
 #:END
 
 #
@@ -63,6 +77,10 @@ SDIR=$SDIR
 NXF_SINGULARITY_CACHEDIR=$NXF_SINGULARITY_CACHEDIR
 TMPDIR=$TMPDIR
 ANSI_LOG=$ANSI_LOG
+
+INPUT_CSV=$INPUT_CSV
+ODIR=$ODIR
+GENOME=$GENOME
 
 END_VERSION
 
