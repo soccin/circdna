@@ -1,7 +1,5 @@
-# nf-harness 
+# circdna
 
-Template repo to hold accessory scripts/files to run
-nf-core/nextflow pipelines
+Accessory scripts to run nf-core/circdna pipeline.
 
-The nf-core pipeline should be cloned as a submodule.
 
