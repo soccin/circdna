@@ -50,6 +50,7 @@ nextflow run $SDIR/circdna/main.nf \
     -c $SDIR/conf/lsf_juno.config \
     --aa_data_repo $AA_DATA_REPO \
     --mosek_license_dir $MOSEK_LICENSE \
+    --bam_sorted true \
     --skip_markduplicates true \
     --circle_identifier ampliconarchitect \
     --reference_build $GENOME --genome $GENOME \
